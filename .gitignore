@@ -1,0 +1,17 @@
+# STM32 build folders
+**/Debug/
+**/Release/
+
+# IDE settings
+**/.settings/
+**/*.launch
+
+# Binaries
+**/*.elf
+**/*.hex
+**/*.bin
+**/*.o
+
+# Logs
+**/*.log
+
