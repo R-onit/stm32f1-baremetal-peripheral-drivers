@@ -1,16 +1,20 @@
-# STM32 build folders
+# STM32CubeIDE build folders
 **/Debug/
 **/Release/
 
-# IDE settings
+# STM32CubeIDE metadata
 **/.settings/
+**/.cproject
+**/.project
 **/*.launch
 
-# Binaries
+# Build artifacts
 **/*.elf
 **/*.hex
 **/*.bin
 **/*.o
+**/*.map
+**/*.d
 
 # Logs
 **/*.log
