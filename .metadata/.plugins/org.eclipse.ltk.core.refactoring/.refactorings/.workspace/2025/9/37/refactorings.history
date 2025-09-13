@@ -1,3 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">&#x0A;<refactoring comment="Delete resource &apos;0_LED_TOGGLE_ADDR&apos;" deleteContents="true" description="Delete resource &apos;0_LED_TOGGLE_ADDR&apos;" element1="/0_LED_TOGGLE_ADDR" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1757740162888"/>&#x0A;<refactoring comment="Rename resource &apos;led_toggle-addr&apos; to &apos;1_memory_mapped_led&apos;" description="Rename resource &apos;led_toggle-addr&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="/led_toggle-addr" name="1_memory_mapped_led" stamp="1757740762209" updateReferences="true"/>
-</session>
