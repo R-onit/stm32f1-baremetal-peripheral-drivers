@@ -1,6 +1,3 @@
-
-#define __IO  			volatile
-
 #include <stdint.h>
 
 #define PERIPH_BASE         (0x40000000UL)
@@ -17,6 +14,9 @@
 #define GPIOAEN             (1U << 2)
 #define LED_PIN             (1U << 5)
 
+#define RCC 				((RCC_TypeDef *)RCC_BASE)
+#define GPIOA				((GPIOA_TypeDef *)GPIOA_BASE)
+
 typedef struct
 {
   volatile uint32_t DUMMY[5];
@@ -29,16 +29,13 @@ typedef struct
   volatile uint32_t CRL;
   volatile uint32_t DUMMY[2];
   volatile uint32_t ODR;
-
-} GPIO_TypeDef;
-
-#define RCC 		((RCC_TypeDef *)RCC_BASE)
-#define GPIOA		((GPIO_TypeDef *)GPIOA_BASE)
+} GPIOA_TypeDef;
 
 int main(void)
 {
     // 1. Enable GPIOA clock
 	RCC->APB2ENR |=GPIOAEN;
+
     // 2. Configure PA5 as output (2MHz push-pull)
 	GPIOA->CRL &= ~(0xF << (4*5));		// clear bits for PA5
 	GPIOA->CRL |= (0x2 << (4*5)); 		//  CNF=00 ,MODE=10,
