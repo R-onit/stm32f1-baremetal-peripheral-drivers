@@ -15,7 +15,7 @@
 #define LED_PIN             (1U << 5)
 
 #define RCC 				((RCC_TypeDef *)RCC_BASE)
-#define GPIOA				((GPIOA_TypeDef *)GPIOA_BASE)
+#define GPIOA				((GPIOA_TypeDef *)GPIOA_BASE
 
 typedef struct
 {
