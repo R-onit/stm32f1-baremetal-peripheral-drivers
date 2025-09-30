@@ -6,7 +6,7 @@
 int main(void)
 {
 
-
+	tim2_pa1_output_compare();
 	while (1)
     {
 
