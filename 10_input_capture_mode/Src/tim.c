@@ -3,7 +3,11 @@
 
 
 #define TIM2_EN        (1U<<0)
+#define TIM3_EN        (1U<<1)
+
 #define CC2E_EN        (1U<<4)
+#define CC1S_EN			(1U<<0)
+#define CC1E_EN			(1U<<0)
 #define RCC_APB2ENR_IOPA (1U<<2)
 void tim2_pa1_output_compare(void){
     // Enable clocks
@@ -36,3 +40,24 @@ void tim2_pa1_output_compare(void){
     // Enable timer
     TIM2->CR1 |= (1U << 0);
 }
+
+void tim3_pa6_input_capture(void){
+    // Enable clocks
+	RCC->APB2ENR |= RCC_APB2ENR_IOPA;
+    // PA6 input , 2 MHz.
+	GPIOA->CRL &= ~(0xF << (4*6));
+	GPIOA->CRL |=  (0x4 << (4*6));
+    // Prescaler = 7999 → 1 kHz tick
+	TIM3->PSC = 8000-1;
+    // ARR = 999 → 1 Hz overflow
+	TIM3->ARR = 1000-1;
+	//enable CH1
+	TIM3->CCMR1 &= ~(0x3 << 0);   // clear CC1S
+	TIM3->CCMR1 |=  (0x1 << 0);   // CC1 channel is mapped on TI1
+	//enable CH1 to capture edges
+	TIM3->CCER |=CC1E_EN;
+	//enable timer
+	TIM3->CR1 |=(1U << 0);
+}
+
+
