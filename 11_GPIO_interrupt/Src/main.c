@@ -1,22 +1,32 @@
 #include <stdio.h>
 #include "stm32f103xb.h"
-#include "tim.h"
+#include "exti.h"
 
-#define SR_UIF				(1U<<0)
-#define SR_CC1IF			(1U<<1)
+void gpio_init(void);
 
-int timestamp=0;
+
 int main(void)
 {
+	pc13_exti_init();
+	//PA5
 
-	tim2_pa1_output_compare();
-	tim3_pa6_input_capture();
+
 	while(1){
 
-		//wait until edge gets captured
-		while(!(TIM3->SR & SR_CC1IF)){}
-
-		timestamp=TIM3->CCR1;
-
+	}
 }
+
+
+void EXTI15_10_IRQHandler(void)
+{
+	if((EXTI->PR & LINE13)!=0){
+
+		//clear PR again
+		EXTI->PR |=LINE13;
+		//do something
+		gpio_init();
+
+	}
+	//PR
 }
+
