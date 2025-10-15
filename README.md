@@ -47,36 +47,36 @@ Build an example:
 ```bash
 make <example_name>
 ```
-- Compiles the source files of the specified example, generates the build artifacts, and places them in the corresponding build/ folder
+Compiles the source files of the specified example, generates the build artifacts, and places them in the corresponding build/ folder
 Example :
 ```
 make 00_led_toggle-addr
 ```
-- Clean build artifacts (removes all generated object files, ELF, and binary files.)
+Clean build artifacts (removes all generated object files, ELF, and binary files.)
 
 ```bash
 make clean
 ```
-- OpenOCD server (Starts the OpenOCD GDB server for flashing and debugging the MCU.
+OpenOCD server (Starts the OpenOCD GDB server for flashing and debugging the MCU.
 )
 ```bash
 make openocd
 ```
 
-- Open another terminal & Start GDB debugging session
+Open another terminal & Start GDB debugging session
 ```bash
 make gdb
 ```
 
-- Flash firmware to the MCU (Compiles the current example (if not already built) and flashes the firmware onto the STM32F103 board using OpenOCD.)
+Flash firmware to the MCU (Compiles the current example (if not already built) and flashes the firmware onto the STM32F103 board using OpenOCD.)
 ```bash
 make flash
 ```
-- Uses arm-none-eabi-objdump to produce a human-readable disassembly of the compiled objects. The output is written to dump.txt.
+Uses arm-none-eabi-objdump to produce a human-readable disassembly of the compiled objects. The output is written to dump.txt.
 ```bash
 make dump
 ```
-- Check binary/object size (Uses arm-none-eabi-size to display text, data, and bss segment sizes of the compiled example.
+Check binary/object size (Uses arm-none-eabi-size to display text, data, and bss segment sizes of the compiled example.
 Example output shows how much flash and RAM each example consumes.)
 ```bash
 make size 
