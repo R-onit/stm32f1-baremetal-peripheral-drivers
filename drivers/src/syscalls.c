@@ -166,6 +166,7 @@ int _fork(void)
   return -1;
 }
 
+
 int _execve(char *name, char **argv, char **env)
 {
   (void)name;
@@ -174,3 +175,7 @@ int _execve(char *name, char **argv, char **env)
   errno = ENOMEM;
   return -1;
 }
+
+// Stubs for newlib to avoid undefined reference errors
+void _init(void) {}
+void _fini(void) {}

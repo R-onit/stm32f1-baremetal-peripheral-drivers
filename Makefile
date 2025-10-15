@@ -1,5 +1,4 @@
-# ====== CONFIGURATION ======
-EXAMPLE ?= 00_LED_TOGGLE-addr
+EXAMPLE ?= 00_led_toggle-addr
 TARGET := $(EXAMPLE)
 
 # directories
@@ -14,11 +13,17 @@ LINKER_SCRIPT := STM32F103RBTX_FLASH.ld
 # toolchain
 CC := arm-none-eabi-gcc
 OBJCOPY := arm-none-eabi-objcopy
+OBJDUMP := arm-none-eabi-objdump
+SIZE := arm-none-eabi-size
 CFLAGS := -mcpu=cortex-m3 -mthumb -g \
           -Idrivers/inc \
           -Iexamples/$(EXAMPLE) \
           -Icmsis/Include \
           -Icmsis/Device
+
+OPENOCD_INTERFACE = interface/stlink.cfg
+OPENOCD_TARGET = target/stm32f1x.cfg
+OPENOCD = openocd -f $(OPENOCD_INTERFACE) -f $(OPENOCD_TARGET)
 
 LDFLAGS := -T $(LINKER_SCRIPT) -nostartfiles
 
@@ -26,33 +31,33 @@ LDFLAGS := -T $(LINKER_SCRIPT) -nostartfiles
 ELF := $(BUILD_DIR)/firmware.elf
 BIN := $(BUILD_DIR)/firmware.bin
 
-# ====== SOURCE FILES ======
+# SOURCE FILES 
 SRC := $(wildcard $(EXAMPLE_DIR)/*.c) \
        $(wildcard $(DRIVERS_SRC)/*.c)
 
 OBJ := $(SRC:%.c=$(OBJ_DIR)/%.o)
 OBJ += $(OBJ_DIR)/startup_stm32f103rbtx.o
 
-# ====== BUILD RULES ======
+# BUILD RULES 
 
 # Default target
 all: $(BIN)
 
-# Ensure build directories exist
+# making build directories 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)/$(EXAMPLE_DIR)
 	@mkdir -p $(OBJ_DIR)/$(DRIVERS_SRC)
 	@mkdir -p $(BUILD_DIR)
 
-# Compile C source files
+# Compiling C source files
 $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Compile assembly startup
+# Compiling assembly startup
 $(OBJ_DIR)/startup_stm32f103rbtx.o: $(STARTUP)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Link objects into ELF
+# Linkinking objects into ELF
 $(ELF): $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) $(LDFLAGS) -o $@
 
@@ -60,6 +65,30 @@ $(ELF): $(OBJ)
 $(BIN): $(ELF)
 	$(OBJCOPY) -O binary $< $@
 
+size :
+	$(SIZE) $(OBJ_DIR)/$(EXAMPLE_DIR)/main.o
+dump :
+	$(OBJDUMP) -d $(OBJ_DIR)/$(EXAMPLE_DIR)/main.o | $(OBJ_DIR)/*.o > dump.txt 
+
+# obj/examples/00_led_toggle-addr/main.o
 # Clean
 clean:
-	rm -rf build
+	rm -rf build dump.txt
+
+flash: $(ELF)
+	@echo "Flashing firmware to STM32..."
+	@$(OPENOCD) -c "program $(ELF) verify reset exit"
+
+# Start OpenOCD server (for GDB connection)
+openocd:
+	@echo "Starting OpenOCD GDB server..."
+	@$(OPENOCD)
+
+# GDB session
+gdb:
+	@echo "Connecting to GDB..."
+	@gdb-multiarch $(ELF) -ex "target remote localhost:3333"
+
+
+.PHONY: flash gdb clean all
+
