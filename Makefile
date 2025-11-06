@@ -51,11 +51,11 @@ $(OBJ_DIR):
 
 # Compiling C source files
 $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 # Compiling assembly startup
 $(OBJ_DIR)/startup_stm32f103rbtx.o: $(STARTUP)
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 # Linkinking objects into ELF
 $(ELF): $(OBJ)
