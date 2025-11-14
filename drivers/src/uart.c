@@ -6,7 +6,7 @@
 #define BAUD_RATE	115200U
 
 
-void uar2_rxtx_init(void)
+void uart2_rxtx_init(void)
 {
 	/*---------------clock access ----------------*/
 	RCC->APB2ENR |= RCC_APB2ENR_IOPAEN;

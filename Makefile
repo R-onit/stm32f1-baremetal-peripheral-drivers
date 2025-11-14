@@ -89,6 +89,10 @@ gdb:
 	@echo "Connecting to GDB..."
 	@gdb-multiarch $(ELF) -ex "target remote localhost:3333"
 
+list:
+	@echo "Available examples:"
+	@ls examples | nl
 
-.PHONY: flash gdb clean all
+
+.PHONY: flash gdb clean list all
 

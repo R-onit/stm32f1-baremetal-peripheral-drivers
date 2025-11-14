@@ -73,8 +73,6 @@ Flash firmware to the MCU (Compiles the current example (if not already built) a
 ```bash
 make flash
 ```
-![run](docs/demo.gif)
-
 Uses arm-none-eabi-objdump to produce a human-readable disassembly of the compiled objects. The output is written to dump.txt.
 ```bash
 make dump
@@ -84,6 +82,9 @@ Example output shows how much flash and RAM each example consumes.)
 ```bash
 make size 
 ```
+
+![run](docs/demo.gif)
+
 ### Features:
 - Single Makefile supports all examples, making compilation and flashing consistent.
 - Automatically manages build directories, object files, and ELF/binary outputs.

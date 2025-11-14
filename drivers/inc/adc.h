@@ -1,7 +1,14 @@
 #ifndef ADC_H_
 #define ADC_H_
 #include <stdint.h>
-void pa1_adc_init(void);
-void start_conversion(void);
-uint32_t read_conversion(void);
+
+void adc_init(void);
+
+uint32_t singleChannel_singleConversion(void);
+
+void adc_multichannel_continous_init(void);
+void adc_start_sequence(void);
+uint32_t adc_read_next(void);
+
+
 #endif

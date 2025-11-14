@@ -3,7 +3,7 @@
 
 
 int main(void){
-	uar2_rxtx_init();
+	uart2_rxtx_init();
 
 	while(1){
 		char recieved = USART2_read();
