@@ -1,0 +1,37 @@
+#include "stm32f103xb.h"
+#include "tim.h"
+
+void tim2_1ms_init(void)
+{
+    //enable clock 
+    RCC->APB1ENR |=RCC_APB1ENR_TIM2EN;
+
+    TIM2->PSC = 7;  //we would be using 7+1=8 as prescaler , now we have clk=1 MHz (for tim2 periph)
+    TIM2->ARR = 999;    //999+1=1000 . so after 1000 clk cycles count would be triggerd 
+
+    TIM2->EGR |= TIM_EGR_UG ;   //reinitialize the PSC,ARR,Counter
+
+    TIM2->DIER |=TIM_DIER_UIE; 
+    TIM2->SR &= ~TIM_SR_UIF;
+
+    NVIC_EnableIRQ(TIM2_IRQn);  //enabled NVIC_IRQn
+
+    TIM2->CR1 |= TIM_CR1_CEN; 
+}
+
+volatile uint32_t tim2_ms_ticks = 0;
+void TIM2_IRQHandler(void)
+{
+    if(TIM2->SR & TIM_SR_UIF)
+    {
+        TIM2->SR &= ~TIM_SR_UIF;    //clear the interrupt flag
+        tim2_ms_ticks++;
+
+    }
+}
+
+void tim2_delay_ms(uint32_t ms)
+{
+    uint32_t start =tim2_ms_ticks;
+    while((tim2_ms_ticks - start)< ms);
+}
