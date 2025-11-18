@@ -16,10 +16,11 @@ int main (void){
     tim2_1ms_init();
     while(1)
     {
-        //toggle led
-        GPIOA->ODR ^= (1 << 5);
-        //call delay
-        tim2_delay_ms(500);
-
+        uint32_t last_toggle;
+        if ((tim2_ms_ticks - last_toggle) >= 500)
+        {
+            GPIOA->ODR ^= (1<<5);
+            last_toggle =tim2_ms_ticks;
+        }
     }
 }

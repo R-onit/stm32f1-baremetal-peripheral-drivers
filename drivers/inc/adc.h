@@ -3,7 +3,6 @@
 #include <stdint.h>
 
 void adc_init(void);
-
 uint32_t singleChannel_singleConversion(void);
 
 void adc_multichannel_continous_init(void);

@@ -1,6 +1,10 @@
 #include "stm32f103xb.h"
 #include "tim.h"
 
+
+
+
+/*******************************Timer2 Delay Driver******************************* */
 void tim2_1ms_init(void)
 {
     //enable clock 
@@ -35,3 +39,9 @@ void tim2_delay_ms(uint32_t ms)
     uint32_t start =tim2_ms_ticks;
     while((tim2_ms_ticks - start)< ms);
 }
+
+/********************************Timer3 PWM Driver************************************** */
+
+
+// GPIOA-> APB2ENR  &= ~(0xF << (4*6));
+// GPIOA-> APB2ENR  |=  (0xB << (4*6));

@@ -83,7 +83,7 @@ Example output shows how much flash and RAM each example consumes.)
 make size 
 ```
 
-![run](docs/demo.gif)
+![run](docs/uart.gif)
 
 ### Features:
 - Single Makefile supports all examples, making compilation and flashing consistent.
