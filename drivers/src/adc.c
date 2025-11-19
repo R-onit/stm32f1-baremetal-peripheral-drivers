@@ -72,7 +72,7 @@ void adc_multichannel_continous_init(void)
     ADC1->CR2 |= ADC_CR2_CAL;
     while (ADC1->CR2 & ADC_CR2_CAL);       // wait for calibration complete
 
-    ADC1->CR2 |= ADC_CR2_CONT;
+    // ADC1->CR2 |= ADC_CR2_CONT;
 
     // Configure sequence length: L = 1 → 2 conversions 
     ADC1->SQR1 &= ~(0xF << 20);            // clear L bits
