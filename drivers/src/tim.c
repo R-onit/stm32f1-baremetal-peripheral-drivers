@@ -43,5 +43,46 @@ void tim2_delay_ms(uint32_t ms)
 /********************************Timer3 PWM Driver************************************** */
 
 
-// GPIOA-> APB2ENR  &= ~(0xF << (4*6));
-// GPIOA-> APB2ENR  |=  (0xB << (4*6));
+void tim3_pwm_init(uint32_t freq_hz)
+{
+    // enable GPIOA and TIM3 clocks
+    RCC->APB2ENR |=RCC_APB2ENR_IOPAEN;
+    RCC->APB1ENR |=RCC_APB1ENR_TIM3EN;
+
+    // configure PA6 as AF PP
+    GPIOA->CRL &= ~(0xF << (4*6));
+    GPIOA->CRL |=  (0xB << (4*6));
+
+
+    TIM3->CR1 |= TIM_CR1_ARPE;
+
+    // compute PSC and ARR
+    TIM3->PSC = 7;
+    TIM3->ARR = (1000000U / freq_hz) - 1;
+
+    // configure PWM mode
+    TIM3->CCMR1 &= ~0xFF ;
+    TIM3->CCMR1 |= (0x6 << 4);
+    TIM3->CCMR1 |= TIM_CCMR1_OC1PE;
+
+    // enable channel + timer
+    TIM3->CCER &= ~TIM_CCER_CC1P;
+    TIM3->CCER |=TIM_CCER_CC1E;// (1U <<1)
+    
+    // initial duty 
+    TIM3->CCR1 = 0;
+
+    TIM3->CR1 |= TIM_CR1_CEN;
+
+
+}
+
+void tim3_pwm_set_duty(uint8_t percent)
+{
+    // convert percent → CCR1 based on ARR
+    if (percent > 100) percent = 100;
+
+    TIM3->CCR1 = (percent*(TIM3->ARR +1))/100;
+}
+
+
